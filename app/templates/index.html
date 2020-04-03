@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card" style="width:400px">
+    <img class="card-img-top" src="{{url_for('static', filename='assets/login.jpg')}}"
+        alt="Card image" style="width:100%">
+    <div class="card-body" >
+      <p class="card-text">Login to view your pay history</p>
+      <a href="#" class="btn btn-primary" href="/login" >Login</a>
+    </div>
+  </div>
+{% endblock %}
