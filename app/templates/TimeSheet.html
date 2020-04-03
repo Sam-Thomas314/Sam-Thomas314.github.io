@@ -1,14 +1,4 @@
 {% extends "base.html" %}
-<head>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <link>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='app.css')}}">
-</head>
 
 {% block content %}
 
@@ -85,7 +75,7 @@
                         <input type="text" id="dayTotal" placeholder="Day Total">
                     </div>
                     <div class="col-md-4">
-                        <input type="button" class="button" value="Add another line">
+                        <input type="button" class="button" value="Add another line" >
                         <!-- add this back in onclick="addField();"-->
                     </div>
                 </div>
