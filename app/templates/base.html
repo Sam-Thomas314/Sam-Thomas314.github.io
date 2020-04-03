@@ -1,0 +1,433 @@
+<html>
+    <head>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='app.css')}}">
+    <style>
+        .modal {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        /* Stay in place */
+        z-index: 1;
+        /* Sit on top */
+        padding-top: 100px;
+        /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%;
+        /* Full width */
+        height: 100%;
+        /* Full height */
+        overflow: auto;
+        /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0);
+        /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4);
+        /* Black w/ opacity */
+    }
+    /* Modal Content */
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
+    /* The Close Button */
+
+    .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    @media screen and (min-width: 768px) {
+        .modal-dialog {
+          width: 700px; /* New width for default modal */
+        }
+        .modal-sm {
+          width: 350px; /* New width for small modal */
+        }
+    }
+    @media screen and (min-width: 992px) {
+        .modal-lg {
+          width: 950px; /* New width for large modal */
+        }
+    }
+
+    </style>
+
+    <script>
+        function addField(argument) {
+            var myTable = document.getElementById("myTable");
+            var currentIndex = myTable.rows.length;
+            var currentRow = myTable.insertRow(-1);
+
+            var Customer = document.createElement("INPUT");
+            Customer.setAttribute("name", "Customer" + currentIndex);
+
+            var Total = document.createElement("INPUT");
+            Total.setAttribute("id", "Total" + currentIndex);
+            //document.getElementsByName("Total" + currentIndex).placeholder = "Total";
+
+
+            var In = document.createElement("INPUT");
+            In.setAttribute("name", "In" + currentIndex);
+
+            var Out = document.createElement("INPUT");
+            Out.setAttribute("name", "Out" + currentIndex);
+
+            var pure_water = document.createElement("INPUT");
+            pure_water.setAttribute("type", "button");
+            pure_water.setAttribute("name", "pure_water" + currentIndex);
+            pure_water.setAttribute("onclick", "Pure_Water()");
+
+            var power_washing = document.createElement("INPUT");
+            power_washing.setAttribute("type", "button");
+            power_washing.setAttribute("name", "power_washing" + currentIndex);
+
+            var addRowBox = document.createElement("input");
+            addRowBox.setAttribute("type", "button");
+            addRowBox.setAttribute("value", "Add another line");
+            addRowBox.setAttribute("onclick", "addField();");
+            addRowBox.setAttribute("class", "button");
+            addRowBox.setAttribute("type", "button");
+            addRowBox.setAttribute("type", "button");
+
+            var currentCell = currentRow.insertCell(-1);
+            currentCell.appendChild(Customer);
+
+            currentCell = currentRow.insertCell(-1);
+            currentCell.appendChild(Total);
+
+            currentCell = currentRow.insertCell(-1);
+            currentCell.appendChild(In);
+
+            currentCell = currentRow.insertCell(-1);
+            currentCell.appendChild(Out);
+
+            currentCell = currentRow.insertCell(-1);
+            currentCell.appendChild(pure_water);
+
+            currentCell = currentRow.insertCell(-1);
+            currentCell.appendChild(power_washing);
+
+
+        }
+
+        function add_customer_total() {
+            var totals = document.getElementsByTagName("input");
+            var Day_Total = document.getElementById("dayTotal");
+            var total = 0;
+
+            for (var i = 0; i < totals.length; i++) {
+                var ip = totals[i];
+                if (ip.name && ip.name.indexOf("total") < 0) {
+                    total += parseInt(ip.value) || 0;
+                }
+            }
+            var daytotalelem = window.document.getElementById("dayTotal");
+            daytotalelem.value = total;
+        }
+
+        function Pure_Water(){
+            var sub_total = prompt("Enter Amount");
+            sub_total = sub_total * .25
+
+            var total = document.getElementById("total").value
+
+            if( total!= null){
+                total = total - sub_total;
+                document.getElementById("total").value = total;
+            }
+        }
+        function Power_Wash(){
+            var sub_total = prompt("Enter Amount");
+            sub_total = sub_total * .02
+            var total = document.getElementById("total").value
+
+            if( total!= null){
+                total = total - sub_total;
+                document.getElementById("total").value = total;
+            }
+        }
+            //var pure_total = origional_total;
+
+
+        /*
+        function power_adjust_day_total() {
+            var checkBox = document.getElementById("power_washing");
+            origional_total = document.getElementById("total").value;
+            var current_total = document.getElementById("total").value;
+            //var power_total = power_origional_total;
+
+            if (current_total < origional_total) {
+                current_total = current_total;
+            } else {
+                if (checkBox.checked == true) {
+                    current_total = current_total - (origional_total * (2 / 100));
+                    checkBox.disabled = true;
+                } else {
+                    current_total = current_total;
+                }
+            }
+            document.getElementById("total").value = current_total;
+        }
+        */
+
+        function onLoadListeners() {
+            var pay_1 = document.getElementById("pay_tech1");
+            pay_1.addEventListener("keyup", function(event) {
+                document.getElementById("tech1pay").click();
+            });
+
+            var pay_2 = document.getElementById("pay_tech2");
+            pay_2.addEventListener("keyup", function(event) {
+                document.getElementById("tech2pay").click();
+            });
+
+            var pay_3 = document.getElementById("pay_tech3");
+            pay_3.addEventListener("keyup", function(event) {
+                document.getElementById("tech3pay").click();
+            });
+
+            var pay_4 = document.getElementById("pay_tech4");
+            pay_4.addEventListener("keyup", function(event) {
+                document.getElementById("tech4pay").click();
+            });
+
+            var tech_total = document.getElementById("tech_total");
+            tech_total.addEventListener("keyup", function(event) {
+                document.getElementById("tech_total_button").click();
+            });
+
+            var hours_tech1 = document.getElementById("hours_tech1");
+            hours_tech1.addEventListener("keyup", function(event) {
+                document.getElementById("totalhours1").click();
+            });
+
+            var the_comission = document.getElementById("comission");
+            the_comission.addEventListener("keyup", function(event) {
+                document.getElementById("get_comission").click();
+            });
+
+            var minus_tech = document.getElementById("minus_tech");
+            minus_tech.addEventListener("keyup", function(event){
+                document.getElementById("minus_tech_button").click();
+            });
+
+            var bid_total = document.getElementById("bids_completed");
+            bid_total.addEventListener("keyup", function(event){
+                document.getElementById("get_bid_total").click();
+            })
+
+            var site_total = document.getElementById("site_number");
+            site_total.addEventListener("keyup", function(event){
+                document.getElementById("get_site_total").click();
+            })
+
+        }
+        var totaltechscount = 0;
+
+        function get_tech1_pay() {
+            var total_pay = document.getElementById("pay_tech1");
+            var tech1_hours = document.getElementById("hours_tech1").value;
+            var tech1_rate = document.getElementById("rate_tech1").value;
+            var brk = parseInt(document.getElementById("tech1_brk").value);
+            total_pay.value = (tech1_hours * tech1_rate) + brk ;
+            totaltechscount += 1;
+        }
+
+        function get_tech2_pay() {
+            var total_pay = document.getElementById("pay_tech2");
+            var tech2_hours = document.getElementById("hours_tech2").value;
+            var tech2_rate = document.getElementById("rate_tech2").value;
+            var brk = parseInt(document.getElementById("tech2_brk").value);
+            total_pay.value = (tech2_hours * tech2_rate) + brk;
+            totaltechscount += 1;
+
+        }
+
+        function get_tech3_pay() {
+            var total_pay = document.getElementById("pay_tech3");
+            var tech3_hours = document.getElementById("hours_tech3").value;
+            var tech3_rate = document.getElementById("rate_tech3").value;
+            var brk = parseInt(document.getElementById("tech3_brk").value);
+            total_pay.value = (tech3_hours * tech3_rate) + brk;
+            totaltechscount += 1;
+
+        }
+
+        function get_tech4_pay() {
+            var total_pay = document.getElementById("pay_tech4");
+            var tech4_hours = document.getElementById("hours_tech4").value;
+            var tech4_rate = document.getElementById("rate_tech4").value;
+            var brk = parseInt(document.getElementById("tech4_brk").value);
+            total_pay.value = (tech4_hours * tech4_rate) + brk;
+            totaltechscount += 1;
+
+        }
+
+        function get_tech_total() {
+            arr = [];
+            var sum = 0;
+            arr.push(document.getElementById("pay_tech1").value);
+            arr.push(document.getElementById("pay_tech2").value);
+            arr.push(document.getElementById("pay_tech3").value);
+            arr.push(document.getElementById("pay_tech4").value);
+            //convert array of strings to array of integers
+            for (var i = 0; i < arr.length; i++) {
+                arr[i] = +arr[i];
+            }
+            for (var k = 0; k < arr.length; k++) {
+                sum += arr[k];
+            }
+            var tech_total = document.getElementById("tech_total");
+            tech_total.value = sum;
+        }
+
+        function get_comission(){
+            var comision_box = document.getElementById("comission");
+            var day_total = window.document.getElementById("dayTotal").value;
+            var comission;
+            comission = day_total * (33 / 100);
+            comision_box.value = comission;
+        }
+
+        function get_minus_tech(){
+            var comision = document.getElementById("comission").value;
+            var tech_total = document.getElementById("tech_total").value;
+            var minus_tech = document.getElementById("minus_tech");
+
+            var difference = (comission.value - tech_total).toFixed(3);
+
+            minus_tech.value = difference;
+        }
+
+        function get_FM_labor_net(){
+            var comission = document.getElementById("comission").value;
+            var bonus = document.getElementById("bonus_customer").value;
+            var fm_labor_net = document.getElementById("fm_labor_net")
+            fm_labor_net.value = comission + bonus;
+
+        }
+        function get_bid_total(){
+            var bid_number = document.getElementById("bids_completed").value;
+            var bid_total = (bid_number * 15);
+            var total = document.getElementById("bid_total");
+
+            total.value = bid_total;
+
+        }
+        function get_site_total(){
+            var site_number = document.getElementById("site_number").value;
+            var site_number = (site_number * 5);
+            var total = document.getElementById("site_total");
+
+            total.value = site_number;
+        }
+        function close_modal(){
+            var modal = document.getElementById("day_pay");
+            modal.style.display = "none";
+        }
+
+        function enter_day_sheet(){
+            var modal = document.getElementById("day_pay");
+            modal.style.display = "block";
+            var arrayoftechs = {};
+
+            var paytable = document.getElementById("payTable");
+
+            document.getElementById("tech1_endday").value = document.getElementById("tech1_name").value;
+            document.getElementById("tech2_endday").value = document.getElementById("tech2_name").value;
+            document.getElementById("tech3_endday").value = document.getElementById("tech3_name").value;
+            document.getElementById("tech4_endday").value = document.getElementById("tech4_name").value;
+        }
+
+
+        function tookcomission(){
+            var sitebonus = parseInt(document.getElementById("site_total").value);
+            var bidbonus = parseInt(document.getElementById("bid_total").value);
+            var comission = parseInt(document.getElementById("comission").value);
+            var customer_bonus = parseInt(document.getElementById("added_bonus").value);
+
+            var totalpay = sitebonus + bidbonus + comission + customer_bonus;
+            techpay = totalpay / totaltechscount;
+            console.log(techpay);
+
+            document.getElementById("tech1_endday_pay").value = techpay;
+            document.getElementById("tech2_endday_pay").value = techpay;
+            document.getElementById("tech3_endday_pay").value = techpay;
+            document.getElementById("tech4_endday_pay").value = techpay;
+        }
+        function tookhourly(){
+            document.getElementById("tech1_endday_pay").value = document.getElementById("pay_tech1").value;
+            document.getElementById("tech2_endday_pay").value = document.getElementById("pay_tech2").value;
+            document.getElementById("tech3_endday_pay").value = document.getElementById("pay_tech3").value;
+            document.getElementById("tech4_endday_pay").value = document.getElementById("pay_tech4").value;
+        }
+
+    </script>
+
+    {% if title %}
+    <title>{{ title }} - True Shine</title>
+    {% else %}
+    <title>Welcome to True Shine</title>
+    {% endif %}
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href='/index'> Home </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href='/TimeSheet'>Times Sheet</a>
+                </li>
+                <div class="topnav-right">
+                    <li class="nav-item">
+                        <a class="nav-link" href='/login'>Login</a>
+                    </li>
+                </div>
+                <div class="topnav-right">
+                    <li class="nav-item">
+                        <a class="nav-link" href='/Money-Hr'>Money/Hr./Man</a>
+                    </li>
+                </div>
+
+            </ul>
+        </div>
+        </nav>
+         <hr>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+         <div class="container">
+            {% block content %}{% endblock %}
+         </div>
+    </body>
+</html>

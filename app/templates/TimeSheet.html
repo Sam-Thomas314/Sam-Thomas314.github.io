@@ -1,0 +1,380 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<body onload = "onLoadListeners()">
+    <div class="container" id="Total_Customers">
+        <form id="Time_Sheet">
+            <h1>Time Sheet: </h1><br>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Field Manager:</span>
+                </div>
+                <input type="text" class="form-control" placeholder="Name">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Day: </span>
+                </div>
+                <input type="text" class="form-control" placeholder="Day">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Date: </span>
+                </div>
+                <input type="date" class="form-control" placeholder="Date">
+
+            </div>
+            <div class="row mb-3">
+                <div class="col input-group-prepend">
+                    <span class="input-group-text">Route: </span>
+                    <input type="text" class="form-control" placeholder="Route">
+
+                </div>
+                <div class="col"></div>
+                <div class="col-sm-2"></div>
+                <div class="col-sm-2"></div>
+
+            </div>
+            <br>
+            <div class="row">
+                <div class="col">
+                    <form id="Customer_Sheet">
+                        <div class="table-responsive">
+                            <table class="table" id="myTable">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"> Customer:</th>
+                                        <th scope="col"> Total:</th>
+                                        <th scope="col"> In:</th>
+                                        <th scope="col"> Out:</th>
+                                        <th scope="col"> Pure Water: </th>
+                                        <th scope="col"> Power Washing: </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <form id="customer">
+                                        <tr>
+                                            <td><input type="text" name="Customer" ></td>
+                                            <td><input  id ="total" type="dollar" name="Total"></td>
+                                            <td scope="row"><input type="time" name="In" ></td>
+                                            <td><input type="time" name="Out" ></td>
+                                            <td><input id="pure_water" type="button" value="Pure Water" onclick="Pure_Water()"></td>
+                                            <td><input id="power_washing" type="button" value="Power Wash"onclick = "Power_Wash()" name="power_washing"></td>
+                                        </tr>
+                                    </form>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <br>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="button" class="button" value="Calculate Day Total" onclick="add_customer_total();">
+                    </div>
+                    <div class="col-md-4 align:right" id="dayTotals">
+                        <input type="text" id="dayTotal" placeholder="Day Total">
+                    </div>
+                    <div class="col-md-4">
+                        <input type="button" class="button" value="Add another line" onclick="addField();">
+                    </div>
+                </div>
+            </div>
+            <br>
+            <h5> Techs Job Labor: </h5>
+            <br>
+            <form id="tech">
+                <div class="input-group mb-3" id="tech1">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Name</span>
+                    </div>
+                    <input type="text" class="form-control" id="tech1_name" placeholder="Name">
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">In: </span>
+                    </div>
+                    <input type="time" class="form-control" placeholder="In" id = "tech1_in">
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Out: </span>
+                    </div>
+                    <input type="time" class="form-control" placeholder="Out" id = "tech1_out">
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Brk Pay: </span>
+                    </div>
+                    <input type="text" id="tech1_brk" class="form-control" value="0" placeholder="Brk">
+                </div>
+                <div class="input-group mb-3" >
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="totalhours1" >Total hrs: </span>
+                    </div>
+                    <input type="number" class="form-control" id="hours_tech1" placeholder="Total hours">
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" > X (Rate) </span>
+                    </div>
+                    <input type="number" class="form-control" placeholder="In" id="rate_tech1">
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="tech1pay" onclick="get_tech1_pay()"> Pay </span>
+                    </div>
+                    <input type="currency" data-type ="currency" class="form-control" id="pay_tech1">
+                </div>
+                <br>
+
+                <div class="input-group mb-3" id="tech2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Name</span>
+                    </div>
+                    <input type="text"  class="form-control" placeholder="Name" id="tech2_name">
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">In: </span>
+                    </div>
+                    <input type="time" class="form-control" placeholder="In" id = "tech2_in">
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Out: </span>
+                    </div>
+                    <input type="time" class="form-control" placeholder="Out" id = "tech2_out">
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Brk Pay: </span>
+                    </div>
+                    <input type="text" class="form-control" id="tech2_brk" value="0"  placeholder="Brk">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Total hrs: </span>
+                    </div>
+                    <input type="njumber" class="form-control"  id="hours_tech2" placeholder="Total hours">
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> X (Rate) </span>
+                    </div>
+                    <input type="input" class="form-control" placeholder="Rate" id="rate_tech2">
+
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"  name = "pay" id="tech2pay" onclick="get_tech2_pay()"> Pay </span>
+                    </div>
+                    <input type="text" class="form-control" id="pay_tech2">
+                </div>
+                <br>
+                <div class="input-group mb-3" id="tech3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" >Name</span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Name" id="tech3_name">
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">In: </span>
+                    </div>
+                    <input type="time" class="form-control" placeholder="In" id = "tech3_in">
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Out: </span>
+                    </div>
+                    <input type="time" class="form-control" placeholder="Out" id = "tech3_out">
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Brk Pay: </span>
+                    </div>
+                    <input type="text" class="form-control" id = "tech3_brk" value="0"  placeholder="Brk">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" >Total hrs: </span>
+                    </div>
+                    <input type="number" class="form-control" id = "hours_tech3" placeholder="Total hours" >
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" > X (Rate) </span>
+                    </div>
+                    <input type="number" class="form-control" placeholder="Rate" id = "rate_tech3">
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"  name = "pay" id="tech3pay" onclick="get_tech3_pay()"> Pay </span>
+                    </div>
+                   <input type="text" class="form-control" id="pay_tech3">
+                </div>
+                <br>
+                <div class="input-group mb-3" id="tech4">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Name</span>
+                    </div>
+                    <input type="text"class="form-control" placeholder="Name" id="tech4_name">
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">In: </span>
+                    </div>
+                    <input type="time" class="form-control" placeholder="In" id = "tech4_in">
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Out: </span>
+                    </div>
+                    <input type="time" class="form-control" placeholder="Out" id = "tech4_out">
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Brk Pay: </span>
+                    </div>
+                    <input type="text" class="form-control" id="tech4_brk" value="0"  placeholder="Brk">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Total hrs: </span>
+                    </div>
+                    <input type="number" class="form-control" id="hours_tech4" placeholder="Total hours">
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" > X (Rate) </span>
+                    </div>
+                    <input type="number" class="form-control" id="rate_tech4" placeholder="Rate">
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" name = "pay" id="tech4pay" onclick="get_tech4_pay()"> Pay </span>
+                    </div>
+                    <input type="text" class="form-control" id="pay_tech4">
+                </div>
+            </form>
+            <div class="row">
+            <div class="col-sm-6">
+            </div>
+                <div class="col align:right">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" type="button" id="tech_total_button" onclick="get_tech_total()"> Tech Total </span>
+                        <input type="text" class="form-control" id="tech_total">
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                     <div class="input-group-prepend">
+                        <span class="input-group-text" type="button" id="get_comission" onclick="get_comission()">33% of Day Total:  </span>
+                        <input type="text" class="form-control" id="comission">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                     <div class="input-group-prepend">
+                        <span class="input-group-text" id="minus_tech_button" onclick="get_minus_tech()">Minus Tech Total:  </span>
+                        <input type="text" class="form-control" id="minus_tech">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="add_bonus" onclick="add_bonus()">Plus Add on Bonus:  </span>
+                        <input type="text" class="form-control" id="added_bonus" value="0">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="get_bonus_customer" onclick="get_bonus_customer()">Customer:  </span>
+                        <input type="text" class="form-control" id="bonus_customer">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="get_labor_net" onclick="get_FM_labor_net()"style="font-width: 300">FM Labor NET: </span>
+                        <input type="text" class="form-control" id="fm_labor_net">
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="get_bids_completed" onclick="get_bids_completed()">BIDS Completed. # </span>
+                        <input type="text" class="form-control" id="bids_completed">
+
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <p> X $15.00 </p>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="get_bid_total" onclick="get_bid_total()">Total $ </span>
+                        <input type="text" class="form-control" id="bid_total" value="0">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="get_site_allotment" onclick="get_site sllotment()">Site Allotment. # </span>
+                        <input type="text" class="form-control" id="site_number">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <p> X $5.00 </p>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="get_site_total" onclick="get_site_total()">Total $ </span>
+                        <input type="text" class="form-control" id="site_total" value="0">
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="modal" id="day_pay">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-titla"> Day Pay </h4>
+                            <button type="button" class="close" data-dismiss="modal" onclick="close_modal()"> X </button>
+                        </div>
+                        <div class="modal-body">
+                            <button id="tookcomission" onclick = "tookcomission()"> Took Comission </button>
+                            <button id="tookhourly" onclick = "tookhourly()"> Took Hourly </button>
+                            <div class="table-responsive">
+                                <table class="table" id="myTable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col"> Employee</th>
+                                            <th scope="col"> Pay</th>
+                                        </tr>
+                                        <tbody>
+                                                <tr>
+                                                    <td><input id="tech1_endday"></td>
+                                                    <td><input id="tech1_endday_pay">
+                                                </tr>
+                                                <tr>
+                                                    <td><input id="tech2_endday"></td>
+                                                    <td><input id="tech2_endday_pay">
+                                                </tr>
+                                                <tr>
+                                                    <td><input id="tech3_endday"></td>
+                                                    <td><input id="tech3_endday_pay">
+                                                </tr>
+                                                <tr>
+                                                    <td><input id="tech4_endday"></td>
+                                                    <td><input id="tech4_endday_pay">
+                                                </tr>
+                                        </tbody>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="close_modal()"> Close </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button id="submit" onclick="enter_day_sheet()">SUBMIT </button>
+
+        </form>
+    </div>
+</body>
+
+{% endblock %}
